@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Makeup Rosa - R$10</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Makeup Rosa</h1>
+    <div class="cart">
+      <button id="cart-btn" aria-label="Carrinho">Carrinho (<span id="cart-count">0</span>)</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Tudo por R$10,00</h2>
+      <p>Beleza acessível com toque rosa — batons, blush e sombras.</p>
+    </section>
+
+    <section class="products" id="products">
+      <!-- Cards de produto -->
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?makeup,lipstick,pink" alt="Batom rosa" />
+        <h3>Batom Cremoso</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Batom Cremoso" data-price="10">Comprar por R$10,00</button>
+      </article>
+
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?blush,pink" alt="Blush rosa" />
+        <h3>Blush Compacto</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Blush Compacto" data-price="10">Comprar por R$10,00</button>
+      </article>
+
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?eyeshadow,pink" alt="Sombra rosa" />
+        <h3>Sombra Brilhante</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Sombra Brilhante" data-price="10">Comprar por R$10,00</button>
+      </article>
+
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?makeup,kit,pink" alt="Kit maquiagem rosa" />
+        <h3>Mini Kit Rosa</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Mini Kit Rosa" data-price="10">Comprar por R$10,00</button>
+      </article>
+
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?lipgloss,pink" alt="Gloss rosa" />
+        <h3>Gloss Perolado</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Gloss Perolado" data-price="10">Comprar por R$10,00</button>
+      </article>
+
+      <article class="product-card">
+        <img src="https://source.unsplash.com/400x300/?makeup,brush,pink" alt="Pincel rosa" />
+        <h3>Pincel Fofinho</h3>
+        <p class="price">R$10,00</p>
+        <button class="buy" data-name="Pincel Fofinho" data-price="10">Comprar por R$10,00</button>
+      </article>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
