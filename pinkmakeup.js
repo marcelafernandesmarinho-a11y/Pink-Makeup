@@ -115,3 +115,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Inicialização
     updateCartCount();
 });
+
