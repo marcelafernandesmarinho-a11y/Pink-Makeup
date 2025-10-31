@@ -1,78 +1,44 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pink-Makeup - R$10</title>
-  <link rel="stylesheet" href="Pink-Makeup.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Makeup</title>
+    <link rel="stylesheet" href="Pink-Makeup.css">
 </head>
 <body>
-  <header class="site-header">
-    <h1>Makeup Rosa</h1>
-    <div class="product-card">
-    <div class="product-image">
-        <div class="placeholder-image">IMAGEM AQUI</div> 
-    </div>
-    </div>
 
-<div class="cart">
-      <button id="cart-btn" aria-label="Carrinho">Carrinho (<span id="cart-count">0</span>)</button>
-   
+    <header>
+        <h1>Pink Makeup</h1>
+        <p>Maquiagens incríveis por apenas R$10,00!</p>
+    </header>
 
-  <main>
-    <section class="hero">
-      <h2>Tudo por R$10,00</h2>
-      <p>Beleza acessível.</p>
-    </section>
+    <section id="products">
+        <div class="product">
+            <img src="https://via.placeholder.com/200" alt="Produto 1">
+            <h2>Batons Coloridos</h2>
+            <p>Preço: R$10,00</p>
+            <button onclick="addToCart('Batons Coloridos')">Adicionar ao Carrinho</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200" alt="Produto 2">
+            <h2>Máscara de Cílios</h2>
+            <p>Preço: R$10,00</p>
+            <button onclick="addToCart('Máscara de Cílios')">Adicionar ao Carrinho</button>
+        </div>
+        <div class="product">
+            <img src="https://via.placeholder.com/200" alt="Produto 3">
+            <h2>Pó Compacto</h2>
+            <p>Preço: R$10,00</p>
+            <button onclick="addToCart('Pó Compacto')">Adicionar ao Carrinho</button>
+        </div>
+    </section>
 
-    <section class="products" id="products">
-      <!-- Cards de produto -->
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?makeup,lipstick,pink" alt="Batom rosa" />
-        <h3>Batom Cremoso</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Batom Cremoso" data-price="10">Comprar por R$10,00</button>
-      </article>
+    <footer>
+        <p>&copy; 2025 Pink Makeup. Todos os direitos reservados.</p>
+    </footer>
 
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?blush,pink" alt="Blush rosa" />
-        <h3>Blush Compacto</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Blush Compacto" data-price="10">Comprar por R$10,00</button>
-      </article>
-
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?eyeshadow,pink" alt="Sombra rosa" />
-        <h3>Sombra Brilhante</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Sombra Brilhante" data-price="10">Comprar por R$10,00</button>
-      </article>
-
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?makeup,kit,pink" alt="Kit maquiagem rosa" />
-        <h3>MASCARA PARA OS CILIOS</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Mini Kit Rosa" data-price="10">Comprar por R$10,00</button>
-      </article>
-
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?lipgloss,pink" alt="Gloss rosa" />
-        <h3>Gloss chaveiro</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Gloss Perolado" data-price="10">Comprar por R$10,00</button>
-      </article>
-
-      <article class="product-card">
-        <img src="https://source.unsplash.com/400x300/?makeup,brush,pink" alt="Pincel rosa" />
-        <h3>Pincel Fofinho</h3>
-        <p class="price">R$10,00</p>
-        <button class="buy" data-name="Pincel Fofinho" data-price="10">Comprar por R$10,00</button>
-      </article>
-    </section>
-  </main>
-
-  <div id="toast" class="toast" aria-live="polite"></div>
-
-  <script src="Pink-Makeup.js"></script>
+    <script src="Pink-Makeup.js"></script>
 </body>
 </html>
+
