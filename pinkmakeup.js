@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /**
      * Atualiza o contador de itens no ícone do carrinho.
-     */
+     
     const updateCartCount = () => {
         const count = cart.length;
         if (cartCountElement) {
