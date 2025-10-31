@@ -1,26 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Variável para armazenar o estado do Carrinho
-    // Usaremos localStorage para manter os itens mesmo após o usuário fechar a página.
+    // 1. Definição de Elementos e Variáveis de Estado
+    
+    // Tenta carregar o carrinho do armazenamento local, se não existir, inicia um array vazio.
     let cart = JSON.parse(localStorage.getItem('makeupCart')) || [];
     const cartCountElement = document.getElementById('cart-count');
     const productsSection = document.getElementById('products');
+    const cartButton = document.getElementById('cart-btn');
     const toastElement = document.getElementById('toast');
 
     // 2. Funções de Utilidade
 
     /**
      * Atualiza o contador de itens no ícone do carrinho.
-     
+     */
     const updateCartCount = () => {
-        const count = cart.length;
+        // Conta a quantidade total de ITENS (e não tipos de produto)
+        const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+        
         if (cartCountElement) {
-            cartCountElement.textContent = count;
+            cartCountElement.textContent = totalItems;
         }
     };
 
     /**
      * Exibe uma notificação pop-up simples.
-     * @param {string} message - A mensagem a ser exibida.
      */
     const showToast = (message) => {
         if (toastElement) {
@@ -35,54 +38,62 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     /**
-     * Adiciona um produto ao carrinho.
+     * Adiciona ou incrementa a quantidade de um produto no carrinho.
      * @param {string} name - Nome do produto.
      * @param {number} price - Preço do produto.
      */
     const addToCart = (name, price) => {
-        const item = {
-            name: name,
-            price: price,
-            quantity: 1 // Simplificado para 1 por item, pois todos custam R$10
-        };
+        let existingItem = cart.find(item => item.name === name);
 
-        // Adiciona o item (você pode modificar isso para aumentar a quantidade se o item já existir)
-        cart.push(item);
+        if (existingItem) {
+            // Se o produto já existe, apenas incrementa a quantidade
+            existingItem.quantity += 1;
+            showToast(`Mais um(a) ${name} adicionado!`);
+        } else {
+            // Se for um novo produto, adiciona ao carrinho
+            cart.push({
+                name: name,
+                price: price,
+                quantity: 1
+            });
+            showToast(`"${name}" adicionado ao carrinho!`);
+        }
         
-        // Salva o carrinho no armazenamento local do navegador
+        // Salva e atualiza a interface
         localStorage.setItem('makeupCart', JSON.stringify(cart));
-        
-        // Atualiza a interface
         updateCartCount();
-        showToast(`"${name}" adicionado ao carrinho!`);
     };
+
+    /**
+     * Calcula o total de todos os itens no carrinho.
+     */
+    const calculateTotal = () => {
+        return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+    };
+
 
     // 3. Event Listeners (Ouvintes de Eventos)
 
-    // Adiciona o ouvinte para todos os botões 'Comprar'
+    // A. Adiciona ouvinte para todos os botões 'Comprar'
     if (productsSection) {
         productsSection.addEventListener('click', (event) => {
             const button = event.target.closest('.buy');
             
             if (button) {
-                // Previne o comportamento padrão do botão, se houver
                 event.preventDefault();
                 
-                // Pega os dados do produto através dos atributos 'data-' no botão
+                // Pega os dados do produto dos atributos 'data-'
                 const productName = button.getAttribute('data-name');
                 const productPrice = parseFloat(button.getAttribute('data-price'));
                 
                 if (productName && !isNaN(productPrice)) {
                     addToCart(productName, productPrice);
-                } else {
-                    console.error("Dados do produto ausentes ou inválidos.");
                 }
             }
         });
     }
 
-    // Opcional: Adicionar funcionalidade ao botão "Carrinho" (apenas exibe o total)
-    const cartButton = document.getElementById('cart-btn');
+    // B. Adiciona funcionalidade ao botão "Carrinho"
     if (cartButton) {
         cartButton.addEventListener('click', () => {
             if (cart.length === 0) {
@@ -90,15 +101,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            // Calcula o valor total
-            const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            
-            // Exibe uma mensagem com o total
-            showToast(`Total do Carrinho: R$ ${total.toFixed(2)} (${cart.length} itens)`);
+            const total = calculateTotal();
+            const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+            // Exibe a lista de itens e o total (simplificado para o toast)
+            const itemNames = cart.map(item => `${item.name} (${item.quantity})`).join(', ');
+
+            showToast(`Você tem ${itemCount} itens. Total: R$ ${total.toFixed(2)}.`);
+            console.log("Itens no Carrinho:", cart);
         });
     }
 
     // 4. Inicialização
-    // Garante que o contador esteja correto quando a página carregar
     updateCartCount();
 });
