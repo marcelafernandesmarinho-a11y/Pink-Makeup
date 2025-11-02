@@ -1,287 +1,135 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Make Rosa — Batom Cremoso R$10</title>
-  <style>
-    :root{
-      --pink-1: #ffd6e8;
-      --pink-2: #ff8fb3;
-      --pink-3: #ff5a8a;
-      --accent: #6b2a4a;
-      --card-bg: #ffffffdd;
-      --glass: rgba(255,255,255,0.6);
-      --radius: 14px;
-      --maxw: 980px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(160deg, var(--pink-1), var(--pink-2) 60%, var(--pink-3));
-      color:#3a1b2b;
-      padding:32px;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+:root{
+  --pink:#ffc7e6;
+  --hot:#ff1f86;
+  --cream:#fff1d6;
+  --text:#111;
+  --card-bg:#fff;
+  --radius:18px;
+  font-family: "Trebuchet MS", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#fff;font-size:16px;color:var(--text);-webkit-font-smoothing:antialiased}
 
-    .container{
-      width:100%;
-      max-width:var(--maxw);
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.82));
-      border-radius:20px;
-      box-shadow: 0 10px 30px rgba(120,40,80,0.18);
-      overflow:hidden;
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:0;
-    }
+/* header */
+.top{
+  background:var(--pink);
+  padding:22px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  position:sticky;
+  top:0;
+  z-index:40;
+  border-bottom:4px solid rgba(0,0,0,.03);
+}
+.branding{
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+.logo{
+  font-size:44px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+.tagline{
+  font-size:16px;
+  margin-top:6px;
+  color:#222;
+  letter-spacing:2px;
+}
+.search-wrap{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-left:auto;
+}
+.search{
+  border-radius:28px;
+  border:2px solid rgba(0,0,0,.06);
+  padding:8px 12px;
+  min-width:200px;
+  outline:none;
+}
+.icon-btn{
+  background:var(--cream);
+  border-radius:50%;
+  width:44px;height:44px;
+  display:grid;place-items:center;
+  box-shadow:0 2px 6px rgba(0,0,0,.06);
+  cursor:pointer;
+}
+.cart-count{position:relative;display:inline-block}
+.cart-count .badge{
+  position:absolute;top:-6px;right:-6px;background:var(--hot);color:#fff;font-weight:700;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;
+}
 
-    /* mobile */
-    @media (max-width:880px){
-      .container{grid-template-columns: 1fr; padding-bottom:0}
-      .product-image{order:-1}
-    }
+/* products grid */
+main{padding:28px;max-width:1200px;margin:0 auto;}
+.products{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+  gap:22px;
+}
+.card{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 6px 20px rgba(0,0,0,.04);
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  min-height:300px;
+}
+.img{
+  background:linear-gradient(135deg,#ffd1e8,#ffe9f8);
+  border-radius:12px;
+  padding:18px;
+  aspect-ratio:1.1/1;
+  display:grid;
+  place-items:center;
+  margin-bottom:12px;
+}
+.product-name{font-weight:700;text-align:center;margin:6px 0;font-size:18px}
+.product-desc{font-size:13px;color:#444;text-align:center;margin-bottom:8px}
+.price{background:var(--cream);padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:18px;margin-top:auto}
+.controls{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
+.btn{padding:8px 10px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+.btn-add{background:var(--hot);color:white}
+.btn-view{background:transparent;border:2px solid rgba(0,0,0,.06)}
 
-    .main{
-      padding:40px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
+/* footer-ish */
+.banner{
+  margin:22px 0;
+  text-align:center;
+  padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,198,226,.2), rgba(255,235,214,.2));
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.banner h2{margin:0;font-size:22px}
+.banner p{margin:0;color:#333}
 
-    .logo{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo .badge{
-      width:48px; height:48px; border-radius:12px;
-      background:linear-gradient(180deg,var(--pink-3),var(--pink-2));
-      display:flex; align-items:center; justify-content:center;
-      color:white; font-weight:700; font-size:18px;
-      box-shadow: 0 6px 14px rgba(255,90,138,0.15);
-    }
-    h1{
-      margin:0;
-      font-size:28px;
-      letter-spacing:-0.5px;
-    }
-    p.lead{margin:0;color:#5b3546;line-height:1.45;}
+/* cart/checkout pages */
+.page{display:none;padding:18px;max-width:900px;margin:12px auto;}
+.page.active{display:block}
+.cart-list{display:flex;flex-direction:column;gap:12px}
+.cart-item{display:flex;gap:12px;align-items:center;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,.03)}
+.cart-item img{width:72px;height:72px;border-radius:8px;object-fit:cover}
+.qty{display:flex;gap:6px;align-items:center}
+.qty button{padding:6px 10px;border-radius:8px;background:#eee;border:0;cursor:pointer}
+.summary{margin-top:12px;padding:12px;border-radius:10px;background:var(--cream);font-weight:700}
+form .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+label{font-size:13px}
+input,select{padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08);min-width:180px;}
+.payment-methods{display:flex;gap:8px}
+.paybox{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.06);cursor:pointer}
+.paybox.active{box-shadow:0 6px 20px rgba(0,0,0,.06);border-color:var(--hot)}
+.qr-sim{width:200px;height:200px;border-radius:12px;background:linear-gradient(135deg,#ffd1e8,#ffe9f8);display:grid;place-items:center;margin:6px 0}
 
-    .features{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:6px;
-    }
-    .chip{
-      background:var(--glass);
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:600;
-      font-size:14px;
-      color:#49192e;
-      backdrop-filter: blur(4px);
-    }
-
-    .price-row{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      margin-top:8px;
-    }
-    .price{
-      background:linear-gradient(90deg,var(--pink-3),var(--pink-2));
-      color:white;
-      padding:10px 18px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:22px;
-      box-shadow: 0 8px 18px rgba(120,40,80,0.12);
-    }
-    .price small{display:block;font-weight:500;font-size:13px;opacity:0.95}
-
-    .actions{
-      display:flex;
-      gap:12px;
-      margin-top:12px;
-    }
-    .btn{
-      border:0;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:700;
-      cursor:pointer;
-      font-size:15px;
-      transition:transform .12s ease, box-shadow .12s ease;
-    }
-    .btn-primary{
-      background:var(--accent);
-      color:white;
-      box-shadow: 0 8px 20px rgba(107,42,74,0.18);
-    }
-    .btn-primary:active{transform:translateY(2px)}
-    .btn-ghost{
-      background:transparent;
-      color:var(--accent);
-      border:2px solid rgba(107,42,74,0.08);
-    }
-
-    .product-image{
-      padding:30px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
-      border-left: 1px dashed rgba(107,42,74,0.06);
-    }
-    .card{
-      width:320px;
-      height:420px;
-      border-radius:18px;
-      background: linear-gradient(180deg,#fff 0%, #fff0 100%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      box-shadow: 0 10px 30px rgba(100,20,60,0.06);
-      position:relative;
-      overflow:hidden;
-    }
-    .product-photo{
-      width:220px; height:220px;
-      border-radius:14px;
-      background: linear-gradient(180deg,#ffeef7, #ffd6e8);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:700; color:var(--accent);
-      font-size:18px;
-      box-shadow: 0 8px 20px rgba(255,90,138,0.12);
-      overflow:hidden;
-    }
-    .product-photo img{
-      width:100%;
-      height:auto;
-      object-fit:cover;
-    }
-    .tag{
-      position:absolute;
-      top:18px; left:18px;
-      background:var(--pink-3);
-      color:white; padding:8px 12px;
-      border-radius:10px; font-weight:800; font-size:13px;
-      box-shadow: 0 6px 14px rgba(255,90,138,0.12);
-    }
-    .info-list{margin-top:14px; width:100%; display:flex; justify-content:space-between; padding:0 12px}
-    .info-list div{font-size:13px; color:#5b3546; font-weight:600}
-
-    footer.note{
-      font-size:13px;
-      color:#5b3546;
-      opacity:0.9;
-      margin-top:10px;
-    }
-
-    .form{
-      margin-top:18px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    input[type="email"]{
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(107,42,74,0.06);
-      min-width:220px;
-      outline:none;
-    }
-    .small{
-      font-size:13px;
-      color:#663245;
-      opacity:0.95;
-      margin-top:6px;
-    }
-  </style>
-</head>
-<body>
-  <div class="container" role="main" aria-label="Loja Make Rosa - produto destaque">
-    <div class="main">
-      <div class="logo">
-        <div class="badge">MR</div>
-        <div>
-          <h1>Make Rosa — Batom Cremoso</h1>
-          <div style="font-size:13px;color:#6b2a4a;font-weight:600">Preço especial: <strong>R$10,00</strong></div>
-        </div>
-      </div>
-
-      <p class="lead">Batom cremoso com longa fixação, acabamento aveludado e pigmentação intensa. Perfeito para o dia a dia e para arrasar à noite. Testado dermatologicamente.</p>
-
-      <div class="features" aria-hidden="true">
-        <div class="chip">Vegano</div>
-        <div class="chip">Hipoalergênico</div>
-        <div class="chip">24h hidratação</div>
-      </div>
-
-      <div class="price-row">
-        <div class="price" aria-live="polite">R$10,<small>00</small></div>
-        <div style="font-size:14px;color:#5b3546">Leve 1 por R$10 — Oferta feira</div>
-      </div>
-
-      <div class="actions" role="group" aria-label="Ações do produto">
-        <button class="btn btn-primary" onclick="comprar()">Comprar R$10</button>
-        <button class="btn btn-ghost" onclick="adicionarCarrinho()">Adicionar ao carrinho</button>
-      </div>
-
-      <div class="form" aria-label="Newsletter">
-        <input id="email" type="email" placeholder="Seu melhor e-mail" aria-label="E-mail para contato">
-        <button class="btn btn-ghost" onclick="inscrever()">Quero desconto</button>
-      </div>
-
-      <div class="small">Entrega local (retirada na feira) • Pagamento em dinheiro ou PIX</div>
-
-      <footer class="note">Dúvidas? Chama no WhatsApp: <strong>(00) 9 0000-0000</strong></footer>
-    </div>
-
-    <div class="product-image" aria-hidden="false">
-      <div class="card" role="region" aria-label="Imagem do produto">
-        <div class="tag">Oferta</div>
-        <div class="product-photo" id="photo">
-          <img src="https://i.imgur.com/LwZxgV7.jpg" alt="Batom rosa">
-        </div>
-
-        <div class="info-list">
-          <div>30 cores</div>
-          <div>5g</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    function comprar(){
-      const proceed = confirm('Confirmar compra do Batom Cremoso por R$10,00? (retirada na feira)');
-      if(proceed){
-        alert('Compra registrada! Mostre este comprovante ao vendedor na feira. Obrigada ❤️');
-      }
-    }
-    function adicionarCarrinho(){
-      alert('Adicionado ao carrinho (simulação). Vá ao caixa para finalizar.');
-    }
-    function inscrever(){
-      const email = document.getElementById('email').value.trim();
-      if(!email || !email.includes('@')) {
-        alert('Digite um e-mail válido para receber o cupom.');
-        return;
-      }
-      alert('Obrigado! Enviaremos um cupom por e-mail.');
-    }
-  </script>
-</body>
-</html>
+/* responsive */
+@media (max-width:520px){
+  .logo{font-size:28px}
+  .branding{flex-direction:column;align-items:flex-start}
+  .search{min-width:120px}
+}
