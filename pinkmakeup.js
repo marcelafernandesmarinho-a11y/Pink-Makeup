@@ -1,135 +1,263 @@
-:root{
-  --pink:#ffc7e6;
-  --hot:#ff1f86;
-  --cream:#fff1d6;
-  --text:#111;
-  --card-bg:#fff;
-  --radius:18px;
-  font-family: "Trebuchet MS", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-}
-*{box-sizing:border-box}
-body{margin:0;background:#fff;font-size:16px;color:var(--text);-webkit-font-smoothing:antialiased}
+/* ---------- Data: 30 produtos gerados ---------- */
+const placeholderSVG = encodeURIComponent(`
+  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
+    <rect width='100%' height='100%' fill='#ffd1e8'/>
+    <g font-family='sans-serif' font-size='32' fill='#9b0f52' text-anchor='middle'>
+      <text x='50%' y='45%'>Pink</text>
+      <text x='50%' y='63%' font-size='20'>makeup</text>
+    </g>
+  </svg>`);
+function imgData(){ return 'data:image/svg+xml;utf8,'+placeholderSVG; }
 
-/* header */
-.top{
-  background:var(--pink);
-  padding:22px 18px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-  position:sticky;
-  top:0;
-  z-index:40;
-  border-bottom:4px solid rgba(0,0,0,.03);
+const products = Array.from({length:30}).map((_,i)=>({
+  id: 'p'+(i+1),
+  name: ['Paleta','Batom líquido','Lápis','Lenço umedecido','Sombra','Blush','Delineador','Pó compacto','Corretivo','Máscara de cílios'][i%10] + ' ' + (i+1),
+  desc: 'Produto de qualidade. Embalagem compacta. Cor variada.',
+  price: 10.00,
+  image: imgData()
+}));
+
+/* ---------- App state ---------- */
+const cartKey = 'pink_cart_v1';
+let cart = JSON.parse(localStorage.getItem(cartKey) || '{}'); // {productId: qty}
+
+/* ---------- Helpers ---------- */
+function saveCart(){ localStorage.setItem(cartKey, JSON.stringify(cart)); updateCartBadge(); }
+function formatBRL(n){ return 'R$' + n.toFixed(2).replace('.',','); }
+function totalCart(){
+  let sum=0;
+  for(const pid in cart){
+    const prod = products.find(p=>p.id===pid);
+    if(prod) sum += prod.price * cart[pid];
+  }
+  return sum;
 }
-.branding{
-  display:flex;
-  align-items:center;
-  gap:18px;
-}
-.logo{
-  font-size:44px;
-  font-weight:800;
-  letter-spacing:1px;
-}
-.tagline{
-  font-size:16px;
-  margin-top:6px;
-  color:#222;
-  letter-spacing:2px;
-}
-.search-wrap{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-left:auto;
-}
-.search{
-  border-radius:28px;
-  border:2px solid rgba(0,0,0,.06);
-  padding:8px 12px;
-  min-width:200px;
-  outline:none;
-}
-.icon-btn{
-  background:var(--cream);
-  border-radius:50%;
-  width:44px;height:44px;
-  display:grid;place-items:center;
-  box-shadow:0 2px 6px rgba(0,0,0,.06);
-  cursor:pointer;
-}
-.cart-count{position:relative;display:inline-block}
-.cart-count .badge{
-  position:absolute;top:-6px;right:-6px;background:var(--hot);color:#fff;font-weight:700;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;
+function updateCartBadge(){
+  const badge = document.getElementById('cart-badge');
+  const count = Object.values(cart).reduce((a,b)=>a+b,0);
+  if(count>0){ badge.style.display='block'; badge.textContent = count; } else badge.style.display='none';
 }
 
-/* products grid */
-main{padding:28px;max-width:1200px;margin:0 auto;}
-.products{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
-  gap:22px;
+/* ---------- Render products ---------- */
+function renderProducts(filter=''){
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  const q = filter.trim().toLowerCase();
+  const list = products.filter(p => !q || (p.name+p.desc).toLowerCase().includes(q));
+  for(const p of list){
+    const el = document.createElement('article');
+    el.className='card';
+    el.innerHTML = `
+      <div class="img"><img src="${p.image}" alt="${p.name}" style="width:100%;height:100%;border-radius:8px;object-fit:cover" /></div>
+      <div class="product-name">${p.name}</div>
+      <div class="product-desc">${p.desc}</div>
+      <div class="controls">
+        <button class="btn btn-add" data-add="${p.id}">Adicionar</button>
+        <button class="btn btn-view" data-view="${p.id}">Ver</button>
+      </div>
+      <div class="price">${formatBRL(p.price)}</div>
+    `;
+    container.appendChild(el);
+  }
 }
-.card{
-  background:var(--card-bg);
-  border-radius:16px;
-  padding:12px;
-  box-shadow:0 6px 20px rgba(0,0,0,.04);
-  display:flex;
-  flex-direction:column;
-  align-items:stretch;
-  min-height:300px;
-}
-.img{
-  background:linear-gradient(135deg,#ffd1e8,#ffe9f8);
-  border-radius:12px;
-  padding:18px;
-  aspect-ratio:1.1/1;
-  display:grid;
-  place-items:center;
-  margin-bottom:12px;
-}
-.product-name{font-weight:700;text-align:center;margin:6px 0;font-size:18px}
-.product-desc{font-size:13px;color:#444;text-align:center;margin-bottom:8px}
-.price{background:var(--cream);padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:18px;margin-top:auto}
-.controls{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
-.btn{padding:8px 10px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
-.btn-add{background:var(--hot);color:white}
-.btn-view{background:transparent;border:2px solid rgba(0,0,0,.06)}
 
-/* footer-ish */
-.banner{
-  margin:22px 0;
-  text-align:center;
-  padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,198,226,.2), rgba(255,235,214,.2));
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+/* ---------- Add to cart ---------- */
+function addToCart(pid, qty=1){
+  cart[pid] = (cart[pid]||0) + qty;
+  saveCart();
+  flashAdd();
 }
-.banner h2{margin:0;font-size:22px}
-.banner p{margin:0;color:#333}
-
-/* cart/checkout pages */
-.page{display:none;padding:18px;max-width:900px;margin:12px auto;}
-.page.active{display:block}
-.cart-list{display:flex;flex-direction:column;gap:12px}
-.cart-item{display:flex;gap:12px;align-items:center;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,.03)}
-.cart-item img{width:72px;height:72px;border-radius:8px;object-fit:cover}
-.qty{display:flex;gap:6px;align-items:center}
-.qty button{padding:6px 10px;border-radius:8px;background:#eee;border:0;cursor:pointer}
-.summary{margin-top:12px;padding:12px;border-radius:10px;background:var(--cream);font-weight:700}
-form .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-label{font-size:13px}
-input,select{padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08);min-width:180px;}
-.payment-methods{display:flex;gap:8px}
-.paybox{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.06);cursor:pointer}
-.paybox.active{box-shadow:0 6px 20px rgba(0,0,0,.06);border-color:var(--hot)}
-.qr-sim{width:200px;height:200px;border-radius:12px;background:linear-gradient(135deg,#ffd1e8,#ffe9f8);display:grid;place-items:center;margin:6px 0}
-
-/* responsive */
-@media (max-width:520px){
-  .logo{font-size:28px}
-  .branding{flex-direction:column;align-items:flex-start}
-  .search{min-width:120px}
+function flashAdd(){
+  const badge = document.getElementById('cart-badge');
+  badge.style.display='block';
+  badge.animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:300});
 }
+
+/* ---------- Cart page render ---------- */
+function showCartPage(){
+  hideAllPages();
+  document.getElementById('cart-page').classList.add('active');
+  const listEl = document.getElementById('cart-list');
+  const emptyEl = document.getElementById('cart-empty');
+  const summary = document.getElementById('cart-summary');
+  listEl.innerHTML='';
+  const items = Object.keys(cart);
+  if(items.length===0){
+    emptyEl.style.display='block';
+    summary.style.display='none';
+    document.getElementById('cart-badge').style.display='none';
+  } else {
+    emptyEl.style.display='none';
+    summary.style.display='block';
+    for(const pid of items){
+      const prod = products.find(p=>p.id===pid);
+      const qty = cart[pid];
+      const item = document.createElement('div');
+      item.className='cart-item';
+      item.innerHTML = `
+        <img src="${prod.image}" alt="${prod.name}" />
+        <div style="flex:1">
+          <div style="font-weight:700">${prod.name}</div>
+          <div style="color:#666;font-size:14px">${prod.desc}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:800">${formatBRL(prod.price)}</div>
+          <div class="qty" data-id="${pid}">
+            <button data-dec="${pid}">-</button>
+            <div style="padding:6px 10px;border-radius:8px;border:1px solid #eee">${qty}</div>
+            <button data-inc="${pid}">+</button>
+          </div>
+          <div><button data-rm="${pid}" style="margin-top:6px;border:0;background:transparent;color:#c00;cursor:pointer">Remover</button></div>
+        </div>
+      `;
+      listEl.appendChild(item);
+    }
+    // attach events
+    listEl.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-inc'); cart[pid] = (cart[pid]||0)+1; saveCart(); showCartPage();
+    }));
+    listEl.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-dec');
+      cart[pid] = (cart[pid]||0)-1;
+      if(cart[pid]<=0) delete cart[pid];
+      saveCart(); showCartPage();
+    }));
+    listEl.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-rm');
+      delete cart[pid]; saveCart(); showCartPage();
+    }));
+    // totals
+    const subtotal = totalCart();
+    const shipping = subtotal > 0 ? 15.00 : 0.00; // exemplo fixo
+    const total = subtotal + shipping;
+    document.getElementById('sub-val').textContent = formatBRL(subtotal);
+    document.getElementById('ship-val').textContent = formatBRL(shipping);
+    document.getElementById('total-val').textContent = formatBRL(total);
+  }
+}
+
+/* ---------- Checkout ---------- */
+function showCheckout(){
+  hideAllPages();
+  document.getElementById('checkout-page').classList.add('active');
+  const total = totalCart() + (totalCart()>0?15:0);
+  document.getElementById('checkout-total').textContent = formatBRL(total);
+}
+
+/* ---------- Utilities: hide pages ---------- */
+function hideAllPages(){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('main-view').style.display = 'none';
+}
+function showMain(){
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+}
+
+/* ---------- CPF validation (algoritmo padrão) ---------- */
+function cleanCPF(cpf){ return (cpf||'').toString().replace(/[^\d]/g,''); }
+function validateCPF(cpf){
+  cpf = cleanCPF(cpf);
+  if(!cpf || cpf.length !== 11) return false;
+  if(/^(\d)\1+$/.test(cpf)) return false;
+  let sum=0;
+  for(let i=0;i<9;i++) sum += Number(cpf.charAt(i)) * (10 - i);
+  let rev = 11 - (sum % 11);
+  if(rev===10 || rev===11) rev = 0;
+  if(rev !== Number(cpf.charAt(9))) return false;
+  sum=0;
+  for(let i=0;i<10;i++) sum += Number(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (sum % 11);
+  if(rev===10 || rev===11) rev = 0;
+  if(rev !== Number(cpf.charAt(10))) return false;
+  return true;
+}
+
+/* ---------- Events ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderProducts();
+  updateCartBadge();
+
+  // product add/view
+  document.getElementById('products').addEventListener('click', e=>{
+    const a = e.target.closest('[data-add]');
+    if(a){ addToCart(a.getAttribute('data-add')); return; }
+    const v = e.target.closest('[data-view]');
+    if(v){ alert('Visualizar: ' + v.getAttribute('data-view')); }
+  });
+
+  // search
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  searchBtn.addEventListener('click', ()=> renderProducts(searchInput.value));
+  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') renderProducts(searchInput.value); });
+
+  // open cart
+  document.getElementById('open-cart').addEventListener('click', ()=>{
+    if(Object.keys(cart).length===0){
+      showMain(); window.scrollTo({top:0,behavior:'smooth'});
+    } else showCartPage();
+  });
+
+  // back to shop
+  document.getElementById('continue-shopping').addEventListener('click', ()=>{
+    showMain();
+  });
+  document.getElementById('back-to-shop').addEventListener('click', ()=>{ showMain(); });
+  document.getElementById('back-to-cart').addEventListener('click', ()=>{ showCartPage(); });
+
+  // proceed to checkout
+  document.getElementById('proceed-checkout').addEventListener('click', ()=>{ showCheckout(); });
+
+  // pay method boxes
+  document.querySelectorAll('.paybox').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.querySelectorAll('.paybox').forEach(x=>x.classList.remove('active'));
+      el.classList.add('active');
+      const method = el.getAttribute('data-pay');
+      document.getElementById('pix-box').style.display = method==='pix' ? 'block' : 'none';
+      document.getElementById('card-box').style.display = method==='card' ? 'block' : 'none';
+    });
+  });
+
+  // simulated payments
+  document.getElementById('btn-pay-pix').addEventListener('click', ()=>{
+    if(totalCart()<=0){ alert('Carrinho vazio'); return; }
+    alert('Pagamento via PIX simulado realizado. Obrigada!');
+    cart = {}; saveCart(); showMain(); renderProducts(); updateCartBadge();
+  });
+
+  document.getElementById('btn-pay-card').addEventListener('click', ()=>{
+    const nome = document.getElementById('card-name').value.trim();
+    const number = document.getElementById('card-number').value.replace(/\s+/g,'');
+    const exp = document.getElementById('exp').value.trim();
+    const cvv = document.getElementById('cvv').value.trim();
+    if(!nome || number.length<13 || exp.length<4 || cvv.length<3){ alert('Preencha os dados do cartão corretamente.'); return; }
+    alert('Pagamento com cartão simulado realizado. Obrigada!');
+    cart = {}; saveCart(); showMain(); renderProducts(); updateCartBadge();
+  });
+
+  // Checkout form basic validation on submit attempt
+  document.getElementById('checkout-form').addEventListener('submit', e=>{ e.preventDefault(); });
+
+  // CPF validation on blur
+  document.getElementById('cpf').addEventListener('blur', (ev)=>{
+    const v = ev.target.value;
+    if(v && !validateCPF(v)){
+      alert('CPF inválido. Verifique e tente novamente.');
+      ev.target.focus();
+    }
+  });
+
+  // dynamic formatting for card input (space every 4 digits)
+  const cardNumber = document.getElementById('card-number');
+  cardNumber && cardNumber.addEventListener('input', (e)=>{
+    let v = e.target.value.replace(/\D/g,'').slice(0,19);
+    v = v.replace(/(\d{4})(?=\d)/g,'$1 ');
+    e.target.value = v;
+  });
+
+  // clear search -> re-render
+  document.getElementById('search-input').addEventListener('input', (e)=>{ if(!e.target.value) renderProducts(); });
+
+});
