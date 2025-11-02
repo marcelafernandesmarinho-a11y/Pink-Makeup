@@ -3,132 +3,128 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pink-makeup — loja</title>
+  <title>Pink-makeup — Loja</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header class="top">
-  <div class="branding">
-    <div class="logo">Pink-makeup</div>
-    <div>
-      <div class="tagline">MAQUIAGENS COM O PREÇO ÚNICO DE R$10.00</div>
+  <header class="top">
+    <button class="menu-btn" aria-label="menu">☰</button>
+    <div class="brand">
+      <h1 class="logo">Pink-<span class="logo-small">makeup</span></h1>
+      <div class="tag">MAQUIAGENS COM O PREÇO UNICO DE R$10.00</div>
     </div>
-  </div>
 
-  <div class="search-wrap" style="margin-left:auto">
-    <input id="search-input" class="search" placeholder="Procure um produto..." aria-label="Pesquisar produtos" />
-    <button class="icon-btn" id="search-btn" title="Pesquisa">🔍</button>
+    <div class="actions">
+      <div class="search-wrap">
+        <input id="search-input" class="search" placeholder="Procure um produto..." />
+        <button id="search-btn" class="search-btn">🔍</button>
+      </div>
 
-    <div class="cart-count" role="button" title="Abrir carrinho" id="open-cart">
-      <div class="icon-btn" aria-hidden="true">🛒</div>
-      <div class="badge" id="cart-badge" style="display:none">0</div>
+      <button id="open-cart" class="cart-btn" title="Carrinho">
+        🛒 <span id="cart-badge" class="badge" style="display:none">0</span>
+      </button>
     </div>
-  </div>
-</header>
+  </header>
 
-<main id="main-view">
-  <section class="banner" aria-hidden>
-    <h2>Todos os produtos R$10,00</h2>
-    <p>Escolha, adicione ao carrinho e finalize com Pix ou cartão. Frete calculado no checkout.</p>
+  <main id="main-view">
+    <section class="hero">
+      <h2>Todos os produtos R$10,00</h2>
+      <p>Escolha, adicione ao carrinho e finalize com PIX ou Cartão.</p>
+    </section>
+
+    <section id="products" class="products" aria-live="polite"></section>
+  </main>
+
+  <!-- CART PAGE -->
+  <section id="cart-page" class="page">
+    <h2>Meu Carrinho</h2>
+
+    <div id="cart-empty" class="cart-empty">Seu carrinho está vazio.</div>
+
+    <div id="cart-list" class="cart-list"></div>
+
+    <div class="cart-right">
+      <div class="coupon">
+        <label for="coupon">CUPOM DE DESCONTO</label>
+        <div class="coupon-row">
+          <input id="coupon" placeholder="Código" />
+          <button id="apply-coupon" class="btn-outline">OK</button>
+        </div>
+        <small class="coupon-help">Use <strong>PINK10</strong> para R$10,00 de desconto no total.</small>
+      </div>
+
+      <div class="summary card">
+        <div><span>SUBTOTAL</span><span id="sub-val">R$0,00</span></div>
+        <div><span>DESCONTOS</span><span id="discount-val">R$0,00</span></div>
+        <div><span>ENTREGA</span><span id="ship-val">R$0,00</span></div>
+        <hr/>
+        <div class="total-row"><strong>TOTAL</strong><strong id="total-val">R$0,00</strong></div>
+
+        <div style="margin-top:14px">
+          <button id="continue-shopping" class="btn-outline">CONTINUAR COMPRANDO</button>
+          <button id="proceed-checkout" class="btn-primary">FECHAR PEDIDO</button>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="products" class="products" aria-live="polite">
-    <!-- product cards injected here -->
+  <!-- CHECKOUT PAGE -->
+  <section id="checkout-page" class="page">
+    <h2>Finalizar compra</h2>
+    <form id="checkout-form" autocomplete="off" class="checkout-form">
+      <div class="row">
+        <label>Nome completo
+          <input id="nome" required />
+        </label>
+        <label>CPF
+          <input id="cpf" placeholder="000.000.000-00" required />
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Email
+          <input id="email" type="email" />
+        </label>
+        <label>Telefone
+          <input id="telefone" placeholder="(99) 9 9999-9999" />
+        </label>
+      </div>
+
+      <fieldset class="pay-methods">
+        <legend>Forma de pagamento</legend>
+        <div class="payment-methods">
+          <button type="button" class="paybox" data-pay="pix" id="pay-pix">PIX</button>
+          <button type="button" class="paybox" data-pay="card" id="pay-card">Cartão (Crédito/Débito)</button>
+        </div>
+      </fieldset>
+
+      <div id="pix-box" class="paybox-area" style="display:none">
+        <p>Chave Pix: <strong>pix@pink-makeup.fake</strong></p>
+        <div class="qr">QR</div>
+        <button type="button" id="btn-pay-pix" class="btn-primary">Pagar com PIX (simulado)</button>
+      </div>
+
+      <div id="card-box" class="paybox-area" style="display:none">
+        <div class="row">
+          <label>Nome no cartão<input id="card-name" /></label>
+          <label>Número do cartão<input id="card-number" maxlength="19" placeholder="0000 0000 0000 0000" /></label>
+        </div>
+        <div class="row">
+          <label>Validade<input id="exp" maxlength="5" placeholder="MM/AA" /></label>
+          <label>CVV<input id="cvv" maxlength="4" /></label>
+        </div>
+        <button type="button" id="btn-pay-card" class="btn-primary">Pagar (simulado)</button>
+      </div>
+
+      <div class="summary card checkout-summary">
+        <div>TOTAL A PAGAR: <strong id="checkout-total">R$0,00</strong></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <button type="button" id="back-to-cart" class="btn-outline">Voltar ao carrinho</button>
+      </div>
+    </form>
   </section>
-</main>
-
-<!-- Cart page -->
-<section id="cart-page" class="page" aria-labelledby="cart-title">
-  <h2 id="cart-title">Meu Carrinho</h2>
-  <div id="cart-empty" style="display:none">Seu carrinho está vazio. <button class="btn btn-view" id="back-to-shop">Voltar à loja</button></div>
-  <div id="cart-list" class="cart-list"></div>
-
-  <div class="summary" id="cart-summary" style="display:none">
-    <div>Subtotal: <span id="sub-val">R$0,00</span></div>
-    <div>Entrega: <span id="ship-val">R$0,00</span></div>
-    <div style="font-size:18px;margin-top:6px">TOTAL: <span id="total-val">R$0,00</span></div>
-    <div style="margin-top:8px">
-      <button class="btn btn-add" id="proceed-checkout">Fechar pedido</button>
-      <button class="btn btn-view" id="continue-shopping">Continuar comprando</button>
-    </div>
-  </div>
-</section>
-
-<!-- Checkout page -->
-<section id="checkout-page" class="page" aria-labelledby="checkout-title">
-  <h2 id="checkout-title">Finalizar compra</h2>
-  <form id="checkout-form" autocomplete="off">
-    <div class="row">
-      <div>
-        <label for="nome">Nome completo</label><br>
-        <input id="nome" required />
-      </div>
-      <div>
-        <label for="cpf">CPF</label><br>
-        <input id="cpf" placeholder="000.000.000-00" required />
-      </div>
-    </div>
-
-    <div class="row">
-      <div style="flex:1">
-        <label for="email">Email</label><br>
-        <input id="email" type="email" />
-      </div>
-      <div>
-        <label for="telefone">Telefone</label><br>
-        <input id="telefone" placeholder="(99) 9 9999-9999" />
-      </div>
-    </div>
-
-    <fieldset style="border:0;padding:0;margin:8px 0">
-      <legend style="font-weight:700">Forma de pagamento</legend>
-      <div class="payment-methods" role="radiogroup" aria-label="Método de pagamento">
-        <div class="paybox" data-pay="pix" id="pay-pix">PIX</div>
-        <div class="paybox" data-pay="card" id="pay-card">Cartão (Crédito/Débito)</div>
-      </div>
-    </fieldset>
-
-    <div id="pix-box" style="display:none;margin-bottom:8px">
-      <p>Chave Pix: <strong>pix@pink-makeup.fake</strong></p>
-      <p>QR Code (simulado):</p>
-      <div class="qr-sim">QR</div>
-      <button type="button" class="btn btn-add" id="btn-pay-pix">Pagar com PIX (simulado)</button>
-    </div>
-
-    <div id="card-box" style="display:none">
-      <div class="row">
-        <div>
-          <label for="card-name">Nome no cartão</label><br>
-          <input id="card-name" />
-        </div>
-        <div>
-          <label for="card-number">Número do cartão</label><br>
-          <input id="card-number" maxlength="19" placeholder="0000 0000 0000 0000" />
-        </div>
-      </div>
-      <div class="row">
-        <div>
-          <label for="exp">Validade (MM/AA)</label><br>
-          <input id="exp" maxlength="5" placeholder="MM/AA" />
-        </div>
-        <div>
-          <label for="cvv">CVV</label><br>
-          <input id="cvv" maxlength="4" placeholder="123" />
-        </div>
-      </div>
-      <button type="button" class="btn btn-add" id="btn-pay-card">Pagar (simulado)</button>
-    </div>
-
-    <div style="margin-top:12px" id="checkout-summary">
-      <div class="summary">TOTAL A PAGAR: <span id="checkout-total">R$0,00</span></div>
-    </div>
-
-    <div style="margin-top:14px">
-      <button type="button" class="btn btn-view" id="back-to-cart">Voltar ao carrinho</button>
-    </div>
-  </form>
-</section>
 
 <script src="script.js"></script>
 </body>
