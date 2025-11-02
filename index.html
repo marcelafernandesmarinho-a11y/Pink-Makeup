@@ -1,287 +1,561 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Make Rosa — Batom Cremoso R$10</title>
-  <style>
-    :root{
-      --pink-1: #ffd6e8;
-      --pink-2: #ff8fb3;
-      --pink-3: #ff5a8a;
-      --accent: #6b2a4a;
-      --card-bg: #ffffffdd;
-      --glass: rgba(255,255,255,0.6);
-      --radius: 14px;
-      --maxw: 980px;
-      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(160deg, var(--pink-1), var(--pink-2) 60%, var(--pink-3));
-      color:#3a1b2b;
-      padding:32px;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-    }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Pink-makeup — loja</title>
+<style>
+  :root{
+    --pink:#ffc7e6;
+    --hot:#ff1f86;
+    --cream:#fff1d6;
+    --text:#111;
+    --card-bg:#fff;
+    --radius:18px;
+    font-family: "Trebuchet MS", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#fff;font-size:16px;color:var(--text);-webkit-font-smoothing:antialiased}
+  /* header */
+  .top{
+    background:var(--pink);
+    padding:22px 18px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    position:sticky;
+    top:0;
+    z-index:40;
+    border-bottom:4px solid rgba(0,0,0,.03);
+  }
+  .branding{
+    display:flex;
+    align-items:center;
+    gap:18px;
+  }
+  .logo{
+    font-size:44px;
+    font-weight:800;
+    letter-spacing:1px;
+  }
+  .tagline{
+    font-size:16px;
+    margin-top:6px;
+    color:#222;
+    letter-spacing:2px;
+  }
+  .search-wrap{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-left:auto;
+  }
+  .search{
+    border-radius:28px;
+    border:2px solid rgba(0,0,0,.06);
+    padding:8px 12px;
+    min-width:200px;
+    outline:none;
+  }
+  .icon-btn{
+    background:var(--cream);
+    border-radius:50%;
+    width:44px;height:44px;
+    display:grid;place-items:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+    cursor:pointer;
+  }
+  .cart-count{
+    position:relative;
+    display:inline-block;
+  }
+  .cart-count .badge{
+    position:absolute;
+    top:-6px;right:-6px;
+    background:var(--hot);
+    color:#fff;
+    font-weight:700;
+    width:20px;height:20px;border-radius:50%;
+    display:grid;place-items:center;font-size:12px;
+  }
 
-    .container{
-      width:100%;
-      max-width:var(--maxw);
-      background: linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.82));
-      border-radius:20px;
-      box-shadow: 0 10px 30px rgba(120,40,80,0.18);
-      overflow:hidden;
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:0;
-    }
+  /* products grid */
+  main{padding:28px;max-width:1200px;margin:0 auto;}
+  .products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
+    gap:22px;
+  }
+  .card{
+    background:var(--card-bg);
+    border-radius:16px;
+    padding:12px;
+    box-shadow:0 6px 20px rgba(0,0,0,.04);
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    min-height:300px;
+  }
+  .img{
+    background:linear-gradient(135deg,#ffd1e8,#ffe9f8);
+    border-radius:12px;
+    padding:18px;
+    aspect-ratio:1.1/1;
+    display:grid;
+    place-items:center;
+    margin-bottom:12px;
+  }
+  .product-name{font-weight:700;text-align:center;margin:6px 0;}
+  .product-desc{font-size:13px;color:#444;text-align:center;margin-bottom:8px}
+  .price{background:var(--cream);padding:10px;border-radius:10px;text-align:center;font-weight:800;font-size:18px;margin-top:auto}
+  .controls{display:flex;gap:8px;align-items:center;justify-content:center;margin-top:8px}
+  .btn{padding:8px 10px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+  .btn-add{background:var(--hot);color:white}
+  .btn-view{background:transparent;border:2px solid rgba(0,0,0,.06);}
 
-    /* mobile */
-    @media (max-width:880px){
-      .container{grid-template-columns: 1fr; padding-bottom:0}
-      .product-image{order:-1}
-    }
+  /* footer-ish */
+  .banner{
+    margin:22px 0;
+    text-align:center;
+    padding:18px;border-radius:12px;background:linear-gradient(90deg, rgba(255,198,226,.2), rgba(255,235,214,.2));
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+  }
+  .banner h2{margin:0;font-size:22px}
+  .banner p{margin:0;color:#333}
 
-    .main{
-      padding:40px;
-      display:flex;
-      flex-direction:column;
-      gap:18px;
-    }
+  /* cart/checkout pages */
+  .page{display:none;padding:18px;max-width:900px;margin:12px auto;}
+  .page.active{display:block}
+  .cart-list{display:flex;flex-direction:column;gap:12px}
+  .cart-item{display:flex;gap:12px;align-items:center;padding:8px;border-radius:10px;border:1px solid rgba(0,0,0,.03)}
+  .cart-item img{width:72px;height:72px;border-radius:8px;object-fit:cover}
+  .qty{display:flex;gap:6px;align-items:center}
+  .qty button{padding:6px 10px;border-radius:8px;background:#eee;border:0;cursor:pointer}
+  .summary{margin-top:12px;padding:12px;border-radius:10px;background:var(--cream);font-weight:700}
+  form .row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  label{font-size:13px}
+  input,select{padding:10px;border-radius:8px;border:1px solid rgba(0,0,0,.08);min-width:180px;}
+  .payment-methods{display:flex;gap:8px}
+  .paybox{padding:10px;border-radius:10px;border:1px solid rgba(0,0,0,.06);cursor:pointer}
+  .paybox.active{box-shadow:0 6px 20px rgba(0,0,0,.06);border-color:var(--hot)}
 
-    .logo{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
-    .logo .badge{
-      width:48px; height:48px; border-radius:12px;
-      background:linear-gradient(180deg,var(--pink-3),var(--pink-2));
-      display:flex; align-items:center; justify-content:center;
-      color:white; font-weight:700; font-size:18px;
-      box-shadow: 0 6px 14px rgba(255,90,138,0.15);
-    }
-    h1{
-      margin:0;
-      font-size:28px;
-      letter-spacing:-0.5px;
-    }
-    p.lead{margin:0;color:#5b3546;line-height:1.45;}
-
-    .features{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      margin-top:6px;
-    }
-    .chip{
-      background:var(--glass);
-      padding:8px 12px;
-      border-radius:999px;
-      font-weight:600;
-      font-size:14px;
-      color:#49192e;
-      backdrop-filter: blur(4px);
-    }
-
-    .price-row{
-      display:flex;
-      align-items:center;
-      gap:18px;
-      margin-top:8px;
-    }
-    .price{
-      background:linear-gradient(90deg,var(--pink-3),var(--pink-2));
-      color:white;
-      padding:10px 18px;
-      border-radius:12px;
-      font-weight:800;
-      font-size:22px;
-      box-shadow: 0 8px 18px rgba(120,40,80,0.12);
-    }
-    .price small{display:block;font-weight:500;font-size:13px;opacity:0.95}
-
-    .actions{
-      display:flex;
-      gap:12px;
-      margin-top:12px;
-    }
-    .btn{
-      border:0;
-      padding:12px 18px;
-      border-radius:12px;
-      font-weight:700;
-      cursor:pointer;
-      font-size:15px;
-      transition:transform .12s ease, box-shadow .12s ease;
-    }
-    .btn-primary{
-      background:var(--accent);
-      color:white;
-      box-shadow: 0 8px 20px rgba(107,42,74,0.18);
-    }
-    .btn-primary:active{transform:translateY(2px)}
-    .btn-ghost{
-      background:transparent;
-      color:var(--accent);
-      border:2px solid rgba(107,42,74,0.08);
-    }
-
-    .product-image{
-      padding:30px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.45));
-      border-left: 1px dashed rgba(107,42,74,0.06);
-    }
-    .card{
-      width:320px;
-      height:420px;
-      border-radius:18px;
-      background: linear-gradient(180deg,#fff 0%, #fff0 100%);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      padding:20px;
-      box-shadow: 0 10px 30px rgba(100,20,60,0.06);
-      position:relative;
-      overflow:hidden;
-    }
-    .product-photo{
-      width:220px; height:220px;
-      border-radius:14px;
-      background: linear-gradient(180deg,#ffeef7, #ffd6e8);
-      display:flex; align-items:center; justify-content:center;
-      font-weight:700; color:var(--accent);
-      font-size:18px;
-      box-shadow: 0 8px 20px rgba(255,90,138,0.12);
-      overflow:hidden;
-    }
-    .product-photo img{
-      width:100%;
-      height:auto;
-      object-fit:cover;
-    }
-    .tag{
-      position:absolute;
-      top:18px; left:18px;
-      background:var(--pink-3);
-      color:white; padding:8px 12px;
-      border-radius:10px; font-weight:800; font-size:13px;
-      box-shadow: 0 6px 14px rgba(255,90,138,0.12);
-    }
-    .info-list{margin-top:14px; width:100%; display:flex; justify-content:space-between; padding:0 12px}
-    .info-list div{font-size:13px; color:#5b3546; font-weight:600}
-
-    footer.note{
-      font-size:13px;
-      color:#5b3546;
-      opacity:0.9;
-      margin-top:10px;
-    }
-
-    .form{
-      margin-top:18px;
-      display:flex;
-      gap:8px;
-      align-items:center;
-      flex-wrap:wrap;
-    }
-    input[type="email"]{
-      padding:12px 14px;
-      border-radius:12px;
-      border:1px solid rgba(107,42,74,0.06);
-      min-width:220px;
-      outline:none;
-    }
-    .small{
-      font-size:13px;
-      color:#663245;
-      opacity:0.95;
-      margin-top:6px;
-    }
-  </style>
+  /* responsive */
+  @media (max-width:520px){
+    .logo{font-size:28px}
+    .branding{flex-direction:column;align-items:flex-start}
+    .search{min-width:120px}
+  }
+</style>
 </head>
 <body>
-  <div class="container" role="main" aria-label="Loja Make Rosa - produto destaque">
-    <div class="main">
-      <div class="logo">
-        <div class="badge">MR</div>
-        <div>
-          <h1>Make Rosa — Batom Cremoso</h1>
-          <div style="font-size:13px;color:#6b2a4a;font-weight:600">Preço especial: <strong>R$10,00</strong></div>
-        </div>
-      </div>
 
-      <p class="lead">Batom cremoso com longa fixação, acabamento aveludado e pigmentação intensa. Perfeito para o dia a dia e para arrasar à noite. Testado dermatologicamente.</p>
-
-      <div class="features" aria-hidden="true">
-        <div class="chip">Vegano</div>
-        <div class="chip">Hipoalergênico</div>
-        <div class="chip">24h hidratação</div>
-      </div>
-
-      <div class="price-row">
-        <div class="price" aria-live="polite">R$10,<small>00</small></div>
-        <div style="font-size:14px;color:#5b3546">Leve 1 por R$10 — Oferta feira</div>
-      </div>
-
-      <div class="actions" role="group" aria-label="Ações do produto">
-        <button class="btn btn-primary" onclick="comprar()">Comprar R$10</button>
-        <button class="btn btn-ghost" onclick="adicionarCarrinho()">Adicionar ao carrinho</button>
-      </div>
-
-      <div class="form" aria-label="Newsletter">
-        <input id="email" type="email" placeholder="Seu melhor e-mail" aria-label="E-mail para contato">
-        <button class="btn btn-ghost" onclick="inscrever()">Quero desconto</button>
-      </div>
-
-      <div class="small">Entrega local (retirada na feira) • Pagamento em dinheiro ou PIX</div>
-
-      <footer class="note">Dúvidas? Chama no WhatsApp: <strong>(00) 9 0000-0000</strong></footer>
-    </div>
-
-    <div class="product-image" aria-hidden="false">
-      <div class="card" role="region" aria-label="Imagem do produto">
-        <div class="tag">Oferta</div>
-        <div class="product-photo" id="photo">
-          <img src="https://i.imgur.com/LwZxgV7.jpg" alt="Batom rosa">
-        </div>
-
-        <div class="info-list">
-          <div>30 cores</div>
-          <div>5g</div>
-        </div>
-      </div>
+<header class="top">
+  <div class="branding">
+    <div class="logo">Pink-makeup</div>
+    <div>
+      <div class="tagline">MAQUIAGENS COM O PREÇO ÚNICO DE R$10.00</div>
     </div>
   </div>
 
-  <script>
-    function comprar(){
-      const proceed = confirm('Confirmar compra do Batom Cremoso por R$10,00? (retirada na feira)');
-      if(proceed){
-        alert('Compra registrada! Mostre este comprovante ao vendedor na feira. Obrigada ❤️');
-      }
+  <div class="search-wrap" style="margin-left:auto">
+    <input id="search-input" class="search" placeholder="Procure um produto..." aria-label="Pesquisar produtos" />
+    <button class="icon-btn" id="search-btn" title="Pesquisa">🔍</button>
+
+    <div class="cart-count" role="button" title="Abrir carrinho" id="open-cart">
+      <div class="icon-btn" aria-hidden="true">🛒</div>
+      <div class="badge" id="cart-badge" style="display:none">0</div>
+    </div>
+  </div>
+</header>
+
+<main id="main-view">
+  <section class="banner" aria-hidden>
+    <h2>Todos os produtos R$10,00</h2>
+    <p>Escolha, adicione ao carrinho e finalize com Pix ou cartão. Frete calculado no checkout.</p>
+  </section>
+
+  <section id="products" class="products" aria-live="polite">
+    <!-- product cards injected here -->
+  </section>
+</main>
+
+<!-- Cart page -->
+<section id="cart-page" class="page" aria-labelledby="cart-title">
+  <h2 id="cart-title">Meu Carrinho</h2>
+  <div id="cart-empty" style="display:none">Seu carrinho está vazio. <button class="btn btn-view" id="back-to-shop">Voltar à loja</button></div>
+  <div id="cart-list" class="cart-list"></div>
+
+  <div class="summary" id="cart-summary" style="display:none">
+    <div>Subtotal: <span id="sub-val">R$0,00</span></div>
+    <div>Entrega: <span id="ship-val">R$0,00</span></div>
+    <div style="font-size:18px;margin-top:6px">TOTAL: <span id="total-val">R$0,00</span></div>
+    <div style="margin-top:8px">
+      <button class="btn btn-add" id="proceed-checkout">Fechar pedido</button>
+      <button class="btn btn-view" id="continue-shopping">Continuar comprando</button>
+    </div>
+  </div>
+</section>
+
+<!-- Checkout page -->
+<section id="checkout-page" class="page" aria-labelledby="checkout-title">
+  <h2 id="checkout-title">Finalizar compra</h2>
+  <form id="checkout-form" autocomplete="off">
+    <div class="row">
+      <div>
+        <label for="nome">Nome completo</label><br>
+        <input id="nome" required />
+      </div>
+      <div>
+        <label for="cpf">CPF</label><br>
+        <input id="cpf" placeholder="000.000.000-00" required />
+      </div>
+    </div>
+
+    <div class="row">
+      <div style="flex:1">
+        <label for="email">Email</label><br>
+        <input id="email" type="email" />
+      </div>
+      <div>
+        <label for="telefone">Telefone</label><br>
+        <input id="telefone" placeholder="(99) 9 9999-9999" />
+      </div>
+    </div>
+
+    <fieldset style="border:0;padding:0;margin:8px 0">
+      <legend style="font-weight:700">Forma de pagamento</legend>
+      <div class="payment-methods" role="radiogroup" aria-label="Método de pagamento">
+        <div class="paybox" data-pay="pix" id="pay-pix">PIX</div>
+        <div class="paybox" data-pay="card" id="pay-card">Cartão (Crédito/Débito)</div>
+      </div>
+    </fieldset>
+
+    <div id="pix-box" style="display:none;margin-bottom:8px">
+      <p>Chave Pix: <strong>pix@pink-makeup.fake</strong></p>
+      <p>QR Code (simulado):</p>
+      <div style="width:200px;height:200px;border-radius:12px;background:linear-gradient(135deg,#ffd1e8,#ffe9f8);display:grid;place-items:center">QR</div>
+      <button type="button" class="btn btn-add" id="btn-pay-pix">Pagar com PIX (simulado)</button>
+    </div>
+
+    <div id="card-box" style="display:none">
+      <div class="row">
+        <div>
+          <label for="card-name">Nome no cartão</label><br>
+          <input id="card-name" />
+        </div>
+        <div>
+          <label for="card-number">Número do cartão</label><br>
+          <input id="card-number" maxlength="19" placeholder="0000 0000 0000 0000" />
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="exp">Validade (MM/AA)</label><br>
+          <input id="exp" maxlength="5" placeholder="MM/AA" />
+        </div>
+        <div>
+          <label for="cvv">CVV</label><br>
+          <input id="cvv" maxlength="4" placeholder="123" />
+        </div>
+      </div>
+      <button type="button" class="btn btn-add" id="btn-pay-card">Pagar (simulado)</button>
+    </div>
+
+    <div style="margin-top:12px" id="checkout-summary">
+      <div class="summary">TOTAL A PAGAR: <span id="checkout-total">R$0,00</span></div>
+    </div>
+
+    <div style="margin-top:14px">
+      <button type="button" class="btn btn-view" id="back-to-cart">Voltar ao carrinho</button>
+    </div>
+  </form>
+</section>
+
+<script>
+/* ---------- Data: 30 produtos gerados ---------- */
+const placeholderSVG = encodeURIComponent(\`
+  <svg xmlns='http://www.w3.org/2000/svg' width='400' height='400'>
+    <rect width='100%' height='100%' fill='#ffd1e8'/>
+    <g font-family='sans-serif' font-size='32' fill='#9b0f52' text-anchor='middle'>
+      <text x='50%' y='45%'>Pink</text>
+      <text x='50%' y='63%' font-size='20'>makeup</text>
+    </g>
+  </svg>\`);
+function imgData(){ return 'data:image/svg+xml;utf8,'+placeholderSVG; }
+
+const products = Array.from({length:30}).map((_,i)=>({
+  id: 'p'+(i+1),
+  name: ['Paleta','Batom líquido','Lápis','Lenço umedecido','Sombra','Blush','Delineador','Pó compacto','Corretivo','Máscara de cílios'][i%10] + ' ' + (i+1),
+  desc: 'Produto de qualidade. Embalagem compacta. Cor variada.',
+  price: 10.00,
+  image: imgData()
+}));
+
+/* ---------- App state ---------- */
+const cartKey = 'pink_cart_v1';
+let cart = JSON.parse(localStorage.getItem(cartKey) || '{}'); // {productId: qty}
+
+/* ---------- Helpers ---------- */
+function saveCart(){ localStorage.setItem(cartKey, JSON.stringify(cart)); updateCartBadge(); }
+function formatBRL(n){ return 'R$' + n.toFixed(2).replace('.',','); }
+function totalCart(){
+  let sum=0;
+  for(const pid in cart){
+    const prod = products.find(p=>p.id===pid);
+    if(prod) sum += prod.price * cart[pid];
+  }
+  return sum;
+}
+function updateCartBadge(){
+  const badge = document.getElementById('cart-badge');
+  const count = Object.values(cart).reduce((a,b)=>a+b,0);
+  if(count>0){ badge.style.display='block'; badge.textContent = count; } else badge.style.display='none';
+}
+
+/* ---------- Render products ---------- */
+function renderProducts(filter=''){
+  const container = document.getElementById('products');
+  container.innerHTML = '';
+  const q = filter.trim().toLowerCase();
+  const list = products.filter(p => !q || (p.name+p.desc).toLowerCase().includes(q));
+  for(const p of list){
+    const el = document.createElement('article');
+    el.className='card';
+    el.innerHTML = \`
+      <div class="img"><img src="\${p.image}" alt="\${p.name}" style="width:100%;height:100%;border-radius:8px;object-fit:cover" /></div>
+      <div class="product-name">\${p.name}</div>
+      <div class="product-desc">\${p.desc}</div>
+      <div class="controls">
+        <button class="btn btn-add" data-add="\${p.id}">Adicionar</button>
+        <button class="btn btn-view" data-view="\${p.id}">Ver</button>
+      </div>
+      <div class="price">\${formatBRL(p.price)}</div>
+    \`;
+    container.appendChild(el);
+  }
+}
+
+/* ---------- Add to cart ---------- */
+function addToCart(pid, qty=1){
+  cart[pid] = (cart[pid]||0) + qty;
+  saveCart();
+  flashAdd();
+}
+function flashAdd(){
+  const badge = document.getElementById('cart-badge');
+  badge.style.display='block';
+  badge.animate([{transform:'scale(1.4)'},{transform:'scale(1)'}],{duration:300});
+}
+
+/* ---------- Cart page render ---------- */
+function showCartPage(){
+  hideAllPages();
+  document.getElementById('cart-page').classList.add('active');
+  const listEl = document.getElementById('cart-list');
+  const emptyEl = document.getElementById('cart-empty');
+  const summary = document.getElementById('cart-summary');
+  listEl.innerHTML='';
+  const items = Object.keys(cart);
+  if(items.length===0){
+    emptyEl.style.display='block';
+    summary.style.display='none';
+    document.getElementById('cart-badge').style.display='none';
+  } else {
+    emptyEl.style.display='none';
+    summary.style.display='block';
+    for(const pid of items){
+      const prod = products.find(p=>p.id===pid);
+      const qty = cart[pid];
+      const item = document.createElement('div');
+      item.className='cart-item';
+      item.innerHTML = \`
+        <img src="\${prod.image}" alt="\${prod.name}" />
+        <div style="flex:1">
+          <div style="font-weight:700">\${prod.name}</div>
+          <div style="color:#666;font-size:14px">\${prod.desc}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-weight:800">\${formatBRL(prod.price)}</div>
+          <div class="qty" data-id="\${pid}">
+            <button data-dec="\${pid}">-</button>
+            <div style="padding:6px 10px;border-radius:8px;border:1px solid #eee">\${qty}</div>
+            <button data-inc="\${pid}">+</button>
+          </div>
+          <div><button data-rm="\${pid}" style="margin-top:6px;border:0;background:transparent;color:#c00;cursor:pointer">Remover</button></div>
+        </div>
+      \`;
+      listEl.appendChild(item);
     }
-    function adicionarCarrinho(){
-      alert('Adicionado ao carrinho (simulação). Vá ao caixa para finalizar.');
+    // attach events
+    listEl.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-inc'); cart[pid] = (cart[pid]||0)+1; saveCart(); showCartPage();
+    }));
+    listEl.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-dec');
+      cart[pid] = (cart[pid]||0)-1;
+      if(cart[pid]<=0) delete cart[pid];
+      saveCart(); showCartPage();
+    }));
+    listEl.querySelectorAll('[data-rm]').forEach(b=>b.addEventListener('click', e=>{
+      const pid = e.currentTarget.getAttribute('data-rm');
+      delete cart[pid]; saveCart(); showCartPage();
+    }));
+    // totals
+    const subtotal = totalCart();
+    const shipping = subtotal > 0 ? 15.00 : 0.00; // exemplo
+    const total = subtotal + shipping;
+    document.getElementById('sub-val').textContent = formatBRL(subtotal);
+    document.getElementById('ship-val').textContent = formatBRL(shipping);
+    document.getElementById('total-val').textContent = formatBRL(total);
+  }
+}
+
+/* ---------- Checkout ---------- */
+function showCheckout(){
+  hideAllPages();
+  document.getElementById('checkout-page').classList.add('active');
+  const total = totalCart() + (totalCart()>0?15:0);
+  document.getElementById('checkout-total').textContent = formatBRL(total);
+}
+
+/* ---------- Utilities: hide pages ---------- */
+function hideAllPages(){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('main-view').style.display = 'none';
+}
+function showMain(){
+  document.getElementById('main-view').style.display = 'block';
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+}
+
+/* ---------- CPF validation (algoritmo padrão) ---------- */
+function cleanCPF(cpf){ return (cpf||'').toString().replace(/[^\d]/g,''); }
+function validateCPF(cpf){
+  cpf = cleanCPF(cpf);
+  if(!cpf || cpf.length !== 11) return false;
+  if(/^(\\d)\\1+$/.test(cpf)) return false; // repeated digits not allowed
+  // calc first digit
+  let sum=0;
+  for(let i=0;i<9;i++) sum += Number(cpf.charAt(i)) * (10 - i);
+  let rev = 11 - (sum % 11);
+  if(rev===10 || rev===11) rev = 0;
+  if(rev !== Number(cpf.charAt(9))) return false;
+  // second
+  sum=0;
+  for(let i=0;i<10;i++) sum += Number(cpf.charAt(i)) * (11 - i);
+  rev = 11 - (sum % 11);
+  if(rev===10 || rev===11) rev = 0;
+  if(rev !== Number(cpf.charAt(10))) return false;
+  return true;
+}
+
+/* ---------- Events ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  renderProducts();
+  updateCartBadge();
+
+  // product add/view
+  document.getElementById('products').addEventListener('click', e=>{
+    const a = e.target.closest('[data-add]');
+    if(a){ addToCart(a.getAttribute('data-add')); return; }
+    const v = e.target.closest('[data-view]');
+    if(v){ alert('Visualizar: ' + v.getAttribute('data-view')); }
+  });
+
+  // search
+  const searchInput = document.getElementById('search-input');
+  const searchBtn = document.getElementById('search-btn');
+  searchBtn.addEventListener('click', ()=> renderProducts(searchInput.value));
+  searchInput.addEventListener('keydown', e=>{ if(e.key==='Enter') renderProducts(searchInput.value); });
+
+  // open cart
+  document.getElementById('open-cart').addEventListener('click', ()=>{
+    showCartPage();
+  });
+
+  // back to shop
+  document.getElementById('continue-shopping').addEventListener('click', ()=>{
+    showMain();
+  });
+  document.getElementById('back-to-shop').addEventListener('click', ()=>{ showMain(); });
+  document.getElementById('back-to-cart').addEventListener('click', ()=>{ showCartPage(); });
+
+  // proceed to checkout
+  document.getElementById('proceed-checkout').addEventListener('click', ()=>{ showCheckout(); });
+
+  // pay method boxes
+  document.querySelectorAll('.paybox').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      document.querySelectorAll('.paybox').forEach(x=>x.classList.remove('active'));
+      el.classList.add('active');
+      const method = el.getAttribute('data-pay');
+      document.getElementById('pix-box').style.display = method==='pix' ? 'block' : 'none';
+      document.getElementById('card-box').style.display = method==='card' ? 'block' : 'none';
+    });
+  });
+
+  // simulated payments
+  document.getElementById('btn-pay-pix').addEventListener('click', ()=>{
+    if(totalCart()<=0){ alert('Carrinho vazio'); return; }
+    // simples confirmação e limpar
+    alert('Pagamento via PIX simulado realizado. Obrigada!');
+    cart = {}; saveCart(); showMain();
+    renderProducts(); updateCartBadge();
+  });
+
+  document.getElementById('btn-pay-card').addEventListener('click', ()=>{
+    // validate basic card fields
+    const nome = document.getElementById('card-name').value.trim();
+    const number = document.getElementById('card-number').value.replace(/\\s+/g,'');
+    const exp = document.getElementById('exp').value.trim();
+    const cvv = document.getElementById('cvv').value.trim();
+    if(!nome || number.length<13 || exp.length<4 || cvv.length<3){ alert('Preencha os dados do cartão corretamente.'); return; }
+    alert('Pagamento com cartão simulado realizado. Obrigada!');
+    cart = {}; saveCart(); showMain(); renderProducts(); updateCartBadge();
+  });
+
+  // Checkout form basic validation on submit attempt
+  document.getElementById('checkout-form').addEventListener('submit', e=>{ e.preventDefault(); });
+
+  // Pay: when user clicks finalizar from checkout (we use the two pay buttons above)
+  // Simple CPF validation on blur
+  document.getElementById('cpf').addEventListener('blur', (ev)=>{
+    const v = ev.target.value;
+    if(v && !validateCPF(v)){
+      alert('CPF inválido. Verifique e tente novamente.');
+      ev.target.focus();
     }
-    function inscrever(){
-      const email = document.getElementById('email').value.trim();
-      if(!email || !email.includes('@')) {
-        alert('Digite um e-mail válido para receber o cupom.');
-        return;
-      }
-      alert('Obrigado! Enviaremos um cupom por e-mail.');
-    }
-  </script>
+  });
+
+  // dynamic formatting for card input (space every 4 digits)
+  const cardNumber = document.getElementById('card-number');
+  cardNumber && cardNumber.addEventListener('input', (e)=>{
+    let v = e.target.value.replace(/\\D/g,'').slice(0,19);
+    v = v.replace(/(\\d{4})(?=\\d)/g,'$1 ');
+    e.target.value = v;
+  });
+
+  // click on continue shopping in header: re-render
+  document.getElementById('search-input').addEventListener('input', (e)=>{ if(!e.target.value) renderProducts(); });
+
+  // initial cart page state
+  document.getElementById('continue-shopping').addEventListener('click', ()=>{
+    showMain();
+    renderProducts();
+  });
+
+});
+
+/* ---------- Small UI: open checkout via header cart if has items ---------- */
+document.getElementById('open-cart').addEventListener('click', ()=>{
+  // if has items go to cart, else scroll to main.
+  if(Object.keys(cart).length===0){
+    showMain();
+    window.scrollTo({top:0,behavior:'smooth'});
+  } else showCartPage();
+});
+</script>
 </body>
 </html>
