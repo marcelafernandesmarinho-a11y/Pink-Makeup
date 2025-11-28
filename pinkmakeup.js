@@ -104,3 +104,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // inicializa
   updateCartUI();
 });
+// contador do carrinho
+let cartCount = 0;
+
+// pega o número que aparece no carrinho
+const cartCountEl = document.getElementById("cartCount");
+
+// pega todos os botões de adicionar
+const addBtns = document.querySelectorAll(".add-btn");
+
+// quando clicar em "Adicionar ao carrinho"
+addBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    
+    cartCount++; // aumenta +1
+    
+    cartCountEl.textContent = cartCount; // atualiza número lá em cima
+  });
+});
