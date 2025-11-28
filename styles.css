@@ -65,3 +65,26 @@ body{font-family: "Helvetica Neue", Arial, sans-serif; margin:0; background:var(
   .cart-drawer{width:100%;right:-100%}
   .cart-drawer.open{right:0}
 }
+/* Estilo base para todos os botões */
+button,
+.add-btn,
+.cart-btn,
+.qty-btn,
+.remove-btn,
+.checkout-btn,
+.close-cart {
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+/* Mudança de cor ao clicar (efeito active) */
+button:active,
+.add-btn:active,
+.cart-btn:active,
+.qty-btn:active,
+.remove-btn:active,
+.checkout-btn:active,
+.close-cart:active {
+  background-color: rgba(255, 105, 180, 0.25); /* rosa leve ao clicar */
+  transform: scale(0.95); /* efeito de “apertar” */
+}
